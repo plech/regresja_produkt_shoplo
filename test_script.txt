@@ -1,0 +1,29 @@
+# -*- coding: UTF-8 -*-
+import unittest
+import datetime
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+
+class TestClass(unittest.TestCase):
+
+    def setUp(self):
+        self.driver = webdriver.Firefox()
+        self.driver.set_page_load_timeout(30)
+        self.driver.maximize_window()
+    
+    def test_MahsumAkbasNet_Pass(self):
+        wait = WebDriverWait(self.driver, 30)
+        
+        self.driver.get("http://www.mahsumakbas.net/selenium")
+        
+        self.driver.find_element_by_id("submitJquery").click()
+        print "Button is clicked at time: " + str(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))
+        
+        wait.until(lambda driver: self.driver.execute_script("return jQuery.active == 0"))
+        print "Ajax request is completed at time: " + str(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))
+    
+    def tearDown(self):
+        self.driver.close()
+
+if __name__ == '__main__':
+    unittest.main()
